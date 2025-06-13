@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Students</h2>
+<form method="post" action="{{ url_for('add_student') }}" class="mb-3 row g-2">
+    <div class="col">
+        <input class="form-control" type="text" name="admission_no" placeholder="Admission No">
+    </div>
+    <div class="col">
+        <input class="form-control" type="text" name="name" placeholder="Name">
+    </div>
+    <div class="col">
+        <input class="form-control" type="text" name="form" placeholder="Form">
+    </div>
+    <div class="col">
+        <button class="btn btn-success" type="submit">Add Student</button>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr><th>Name</th><th>Adm No</th><th>Form</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+    {% for student in students %}
+        <tr>
+            <form method="POST" action="{{ url_for('edit_student', id=student.id) }}">
+                <td>
+                    <input name="name" value="{{ student.name }}" class="form-control" placeholder="Name" title="Name" aria-label="Name">
+                </td>
+                <td>{{ student.admission_no }}</td>
+                <td><input name="form" value="{{ student.form }}" class="form-control" placeholder="Form" title="Form"></td>
+                <td>
+                    <button class="btn btn-warning btn-sm" type="submit">Save</button>
+            </form>
+            <form method="POST" action="{{ url_for('delete_student', id=student.id) }}" class="inline-form">
+                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Delete this student?')">Delete</button>
+            </form>
+                </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
